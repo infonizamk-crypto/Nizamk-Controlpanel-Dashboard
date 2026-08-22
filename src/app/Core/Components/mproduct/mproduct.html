@@ -1,0 +1,135 @@
+<div class="modal-container">
+
+  <!-- 1. صفحة عرض المنتجات (بتظهر لما isAddingProduct = false) -->
+  <ng-container *ngIf="!isAddingProduct">
+    <!-- Header -->
+    <header class="modal-header">
+      <div class="header-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 01-8 0"></path>
+        </svg>
+        <span>PRODUCTS</span>
+      </div>
+      <button class="btn-add" (click)="showAddPage()">
+        <span>+</span> Add product
+      </button>
+    </header>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="select-all">
+        <input type="checkbox">
+      </div>
+      <div class="toolbar-actions">
+        <div class="search-box">
+          <svg class="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" placeholder="Search">
+        </div>
+        <div class="dropdown">
+          <span>Filter</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+        <div class="dropdown">
+          <span>More</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product List -->
+    <div class="product-list">
+      <div class="product-item" *ngFor="let item of products">
+        <input type="checkbox" [(ngModel)]="item.selected" class="item-checkbox">
+        <img [src]="item.imageUrl" [alt]="item.Productname" class="product-thumb">
+        <div class="product-details">
+          <div class="product-title">{{ item.Productname }}</div>
+          <div class="product-category">{{ item.category }}</div>
+        </div>
+        <div class="product-price">{{ item.price | number:'1.2-2' }} EGP</div>
+        <!-- زر الحذف -->
+        <button class="btn-remove" (click)="removeProduct(item.id)">Remove</button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="modal-footer">
+      <a href="#" class="link-manage">Manage categories</a>
+      <button class="btn-close">Close</button>
+    </footer>
+  </ng-container>
+
+  <!-- 2. صفحة إدخال البيانات (بتظهر مكان الصفحة الأولى لما isAddingProduct = true) -->
+  <ng-container *ngIf="isAddingProduct">
+    <header class="modal-header">
+      <div class="header-title">
+        <span>NEW PRODUCT DETAILS</span>
+      </div>
+      <button class="btn-add" (click)="showListPage()">
+        &larr; Back to Products
+      </button>
+    </header>
+
+    <form class="add-form" (ngSubmit)="addProduct()">
+      <div class="form-group">
+        <label>Product name</label>
+        <input type="text" [(ngModel)]="newProduct.Productname" name="Productname" placeholder="e.g. Golden Watch" required>
+      </div>
+
+      <div class="form-group">
+        <label>Category</label>
+        <input type="text" [(ngModel)]="newProduct.category" name="category" placeholder="e.g. Aviator, Watchelli" required>
+      </div>
+
+      <div class="form-group">
+        <label>Price (Kč)</label>
+        <input type="number" [(ngModel)]="newProduct.price" name="price" placeholder="599.00" step="0.01" required>
+      </div>
+
+      <div class="form-group">
+        <label>Image URL</label>
+        <input type="url" [(ngModel)]="newProduct.imageUrl" name="imageUrl" placeholder="https://example.com/image.png">
+      </div>
+
+      <div class="form-group">
+        <label>SKU</label>
+        <input type="text" [(ngModel)]="newProduct.sku" name="sku" placeholder="e.g. Golden Watch" required>
+      </div>
+
+      <div class="form-group">
+        <label>Cost</label>
+        <input type="text" [(ngModel)]="newProduct.cost" name="cost" placeholder="e.g. Golden Watch" required>
+      </div>
+      
+      <div class="form-group">
+        <label>Category</label>
+        <input type="text" [(ngModel)]="newProduct.category" name="category" placeholder="e.g. Golden Watch" required>
+      </div>
+
+      <div class="form-group">
+        <label>Quantity</label>
+        <input type="text" [(ngModel)]="newProduct.qty" name="qty" placeholder="e.g. Golden Watch" required>
+      </div>
+
+      <div class="form-group">
+        <label>Unit</label>
+        <input type="text" [(ngModel)]="newProduct.unit" name="unit" placeholder="e.g. Golden Watch" required>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="newProduct.description" name="description" placeholder="e.g. Golden Watch" required>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="showListPage()">Cancel</button>
+        <button type="submit" class="btn-submit">Save Product</button>
+      </div>
+    </form>
+  </ng-container>
+
+</div>

@@ -1,0 +1,172 @@
+<div class="dashboard-container">
+  <!-- Header Bar -->
+  <header class="top-bar">
+    <div class="title-area">
+      <h1><span>1206</span> Employee</h1>
+      <p class="breadcrumb"><span>Dashboard</span> / Employee</p>
+    </div>
+    <!-- Added (click) event to open modal -->
+    <button class="btn-add" (click)="openModal()"><span>+</span> Add Employee</button>
+  </header>
+
+  <!-- Navigation and Control Bar -->
+  <nav class="nav-header">
+    <div class="tabs">
+      <button 
+        class="tab" 
+        [class.active]="activeTab === 'Employee'" 
+        (click)="setTab('Employee')">
+        Employee
+      </button>
+      <button 
+        class="tab" 
+        [class.active]="activeTab === 'Leave Request'" 
+        (click)="setTab('Leave Request')">
+        Leave Request
+      </button>
+    </div>
+
+    <div class="controls">
+      <div class="view-options">
+        <svg viewBox="0 0 24 24"><path d="M4 4h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 10h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 16h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+      </div>
+      <div class="search-box">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <input 
+          type="text" 
+          [(ngModel)]="searchTerm" 
+          (input)="onSearch()" 
+          placeholder="Search Employee">
+      </div>
+    </div>
+  </nav>
+
+  <!-- Employee Grid -->
+  <main class="grid">
+    <div 
+      class="card" 
+      *ngFor="let emp of filteredEmployees" 
+      [class.highlight-green]="emp.highlight === 'highlight-green'"
+      [class.highlight-red]="emp.highlight === 'highlight-red'">
+      
+      <div class="card-header">
+        <span class="badge" [class.active]="emp.status === 'Active'" [class.leave]="emp.status === 'On Leave'">
+          {{ emp.status }}
+        </span>
+        <span class="dots-menu">•••</span>
+      </div>
+
+      <div class="card-body">
+        <img [src]="emp.img" [alt]="emp.name" class="avatar">
+        <h2 class="name">{{ emp.name }}</h2>
+        <span class="role">{{ emp.role }}</span>
+        
+        <div class="details-box">
+          <div class="detail-row">
+            <span>Department</span>
+            <span>Hired Date</span>
+          </div>
+          <div class="detail-val">
+            <span>{{ emp.department }}</span>
+            <span>{{ emp.hiredDate }}</span>
+          </div>
+        </div>
+
+        <div class="contact-info">
+          <div class="contact-item">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span>{{ emp.email }}</span>
+          </div>
+          <div class="contact-item">
+            <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            <span>{{ emp.phone }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add Employee Modal Overlay -->
+  <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Add Employee</h2>
+        <button class="btn-close" (click)="closeModal()">&times;</button>
+      </div>
+
+      <form class="modal-body" (submit)="onSubmitEmployee($event)">
+        <!-- Full Name -->
+        <div class="form-group full-width">
+          <label>Full Name</label>
+          <input type="text" placeholder="Enter full name" required>
+        </div>
+
+        <!-- Email & Phone -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="example@email.com" required>
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" placeholder="+919876543210" required>
+          </div>
+        </div>
+
+        <!-- Department & Designation -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>Department</label>
+            <select required>
+              <option value="" disabled selected>Select Department</option>
+              <option value="Designing Team">Designing Team</option>
+              <option value="Development Team">Development Team</option>
+              <option value="Analytics Team">Analytics Team</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Designation</label>
+            <input type="text" placeholder="e.g. Software Engineer" required>
+          </div>
+        </div>
+
+        <!-- Joining Date & Status -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>Joining Date</label>
+            <input type="date" required>
+          </div>
+          <div class="form-group">
+            <label>Employment Status</label>
+            <select required>
+              <option value="Active">Active</option>
+              <option value="On Leave">On Leave</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div class="form-group full-width">
+          <label>Address</label>
+          <textarea rows="3" placeholder="Enter address"></textarea>
+        </div>
+
+        <!-- Profile Photo -->
+        <div class="form-group full-width">
+          <label>Profile Photo</label>
+          <div class="file-upload">
+            <label for="fileInput" class="btn-file">Choose File</label>
+            <input type="file" id="fileInput" (change)="onFileSelected($event)">
+            <span class="file-name">{{ selectedFileName }}</span>
+          </div>
+        </div>
+
+        <!-- Modal Actions -->
+        <div class="modal-footer">
+          <button type="submit" class="btn-submit">Add Employee</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

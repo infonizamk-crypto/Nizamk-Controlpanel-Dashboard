@@ -1,0 +1,121 @@
+<div class="dashboard-container">
+  <!-- Top Cards Grid -->
+  <div class="cards-grid">
+    
+    <!-- Card 1: Total Student -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Total Orders</h3>
+        <button class="btn-outline">See Details</button>
+      </div>
+      <div class="stat-main">
+        <span class="icon-hat">🎓</span>
+        <span class="stat-value">2,500</span>
+        <span class="badge green">45+</span>
+      </div>
+      <div class="progress-bar">
+        <div class="bar-segment dark-blue" style="width: 15%;"></div>
+        <div class="bar-segment cyan" style="width: 65%;"></div>
+        <div class="bar-segment orange" style="width: 20%;"></div>
+      </div>
+      <ul class="stat-list">
+        <li>
+          <span class="legend dark-blue"></span>
+          <span class="label">Retention Order Rates</span>
+          <span class="value">150 order ↗</span>
+        </li>
+        <li>
+          <span class="legend cyan"></span>
+          <span class="label">Regular Order Rates</span>
+          <span class="value">1,050 order ↗</span>
+        </li>
+        <li>
+          <span class="legend orange"></span>
+          <span class="label">Dropout Order Rates</span>
+          <span class="value">100 order ↗</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Gauge Chart -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Orders Retention</h3>
+        <button class="btn-outline">See Details</button>
+      </div>
+      <div class="stat-main">
+        <span class="icon-hat">🎓</span>
+        <span class="stat-value">60%</span>
+        <span class="badge green">30+</span>
+      </div>
+      <div class="gauge-wrapper">
+        <div class="gauge-body">
+          <div class="gauge-fill" style="transform: rotate(0.6turn);"></div>
+          <div class="gauge-cover">
+            <span class="gauge-val">60</span>
+            <span class="gauge-lbl">Retention</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Bar Chart -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Orders Retention</h3>
+        <button class="btn-outline">Feb - May</button>
+      </div>
+      <div class="stat-main">
+        <span class="icon-hat">🎓</span>
+        <span class="stat-value">60%</span>
+        <span class="badge green">45+</span>
+      </div>
+      <div class="chart-container">
+        <div class="bars-group">
+          <div class="bar-item"><div class="b1" style="height: 60%;"></div><div class="b2" style="height: 30%;"></div><span>Feb</span></div>
+          <div class="bar-item"><div class="b1" style="height: 75%;"></div><div class="b2" style="height: 40%;"></div><span>Mar</span></div>
+          <div class="bar-item"><div class="b1" style="height: 90%;"></div><div class="b2" style="height: 50%;"></div><span>Apr</span></div>
+          <div class="bar-item"><div class="b1" style="height: 85%;"></div><div class="b2" style="height: 45%;"></div><span>May</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Table Section -->
+  <div class="table-card">
+    <div class="table-header">
+      <h3>Responsive Hover Table</h3>
+      <div class="search-box">
+        <input type="text" placeholder="Search..." />
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Student Id</th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Department</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let orders of order">
+            <td class="id-cell">{{ orders.id }}</td>
+            <td>{{ orders.name }}</td>
+            <td>{{ orders.position }}</td>
+            <td>{{ orders.department }}</td>
+            <td>{{ orders.email }}</td>
+            <td class="phone-cell">{{ orders.phone }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Floating Action Button -->
+  <button class="fab">💬</button>
+</div>

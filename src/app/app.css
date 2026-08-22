@@ -1,0 +1,9 @@
+/* أجبر الـ Root tags بتاعة أنجولار تتصرف كـ Block/Flex elements */
+app-navbar, app-sidebar, app-footer {
+  display: block;
+}
+
+app-sidebar {
+  display: flex;
+  flex-direction: column;
+}

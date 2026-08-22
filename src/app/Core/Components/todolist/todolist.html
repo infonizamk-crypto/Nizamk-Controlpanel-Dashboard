@@ -1,0 +1,57 @@
+<div class="container-full">
+  <div class="card todo-card border-0">
+    <!-- Header -->
+    <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+      <h5 class="card-title mb-0 fw-bold text-dark">
+        <i class="bi bi-list-check text-primary me-2"></i>To-Do List
+      </h5>
+      <span class="badge bg-primary rounded-pill">
+        {{ pendingCount }} Pending
+      </span>
+    </div>
+
+    <div class="card-body p-4">
+      <!-- Input Form -->
+      <form (ngSubmit)="addTask()" class="d-flex gap-2 mb-4">
+        <input 
+          #taskInput
+          type="text" 
+          class="form-control form-control-lg" 
+          placeholder="Add a new task..."
+          (keyup.enter)="addTask2(taskInput.value); taskInput.value = ''"
+        >
+        <button type="submit" class="btn btn-primary px-4 d-flex align-items-center gap-1">
+          <i class="bi bi-plus-lg"></i> Add
+        </button>
+      </form>
+
+      <!-- Task List -->
+      <ul class="list-group list-group-flush">
+        @for (task of tasks; track task.id) {
+          <li 
+            class="list-group-item d-flex align-items-center justify-content-between py-3 border-bottom todo-item"
+            [class.completed]="task.completed"
+          >
+            <div class="form-check d-flex align-items-center gap-2 mb-0">
+              <input 
+                class="form-check-input mt-0" 
+                type="checkbox" 
+                [checked]="task.completed" 
+                (change)="toggleTask(task)"
+              >
+              <span class="fs-5">{{ task.title }}</span>
+            </div>
+            
+            <button class="btn btn-link text-danger p-0 border-0" (click)="deleteTask(task.id)">
+              <i class="bi bi-trash fs-5"></i>
+            </button>
+          </li>
+        } @empty {
+          <li class="list-group-item text-center text-muted py-5 border-0">
+            No tasks left! Great job.
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</div>

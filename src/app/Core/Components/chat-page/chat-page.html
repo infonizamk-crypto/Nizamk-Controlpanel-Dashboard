@@ -1,0 +1,148 @@
+<div class="chat-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>Chats</h2>
+      <div class="search-box">
+        <i class="search-icon">🔍</i>
+        <input type="text" placeholder="Search messages or users" [(ngModel)]="searchQuery" />
+      </div>
+    </div>
+
+    <!-- Active Users Horizontal List -->
+    <div class="active-users">
+      <div class="user-avatar-wrapper" *ngFor="let user of activeUsers">
+        <div class="avatar-box">
+          <img [src]="user.avatar" [alt]="user.name" />
+          <span class="status-dot"></span>
+        </div>
+        <span class="user-name">{{ user.name }}</span>
+      </div>
+    </div>
+
+    <div class="recent-title">Recent</div>
+
+    <!-- Recent Chats List -->
+    <div class="chat-list">
+      <div class="chat-item" *ngFor="let chat of recentChats" [class.active]="chat.name === 'Doris Brown'">
+        <div class="avatar-box" *ngIf="chat.avatar">
+          <img [src]="chat.avatar" [alt]="chat.name" />
+          <span class="status-dot" *ngIf="chat.status === 'online'"></span>
+        </div>
+        <div class="avatar-placeholder" *ngIf="!chat.avatar">
+          {{ chat.name.charAt(0) }}
+        </div>
+
+        <div class="chat-info">
+          <div class="chat-top">
+            <span class="chat-name">{{ chat.name }}</span>
+            <span class="chat-time">{{ chat.time }}</span>
+          </div>
+          <div class="chat-bottom">
+            <p class="last-message" [class.typing-text]="chat.isTyping">
+              {{ chat.lastMessage }}
+            </p>
+            <span class="unread-badge" *ngIf="chat.unreadCount">{{ chat.unreadCount }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Chat Section -->
+  <main class="chat-main">
+    <!-- Header -->
+    <header class="chat-header">
+      <div class="user-profile">
+        <img src="https://i.pravatar.cc/150?img=5" alt="Doris Brown" />
+        <div class="profile-info">
+          <h3>Doris Brown</h3>
+          <span class="status-online"></span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button>🔍</button>
+        <button>📞</button>
+        <button>📹</button>
+        <button>👤</button>
+
+        <button>⋮</button>
+      </div>
+    </header>
+
+    <!-- Message Body -->
+    <div class="chat-body">
+      <div 
+        *ngFor="let msg of messages" 
+        class="message-wrapper" 
+        [class.me]="msg.isMe"
+      >
+        <div class="message-content">
+          <!-- Text Message -->
+          <div class="bubble" *ngIf="msg.type === 'text'">
+            <p>{{ msg.text }}</p>
+            <span class="time">🕒 {{ msg.time }}</span>
+          </div>
+
+          <!-- Images Message -->
+          <div class="bubble images-bubble" *ngIf="msg.type === 'images'">
+            <div class="image-title">Images</div>
+            <div class="image-grid">
+              <div class="img-card" *ngFor="let img of msg.images">
+                <img [src]="img" alt="shared" />
+                <div class="img-overlay">
+                  <span>📥</span>
+                  <span>⋮</span>
+                </div>
+              </div>
+            </div>
+            <span class="time">🕒 {{ msg.time }}</span>
+          </div>
+
+          <!-- File Message -->
+          <div class="bubble file-bubble" *ngIf="msg.type === 'file'">
+            <div class="file-card">
+              <div class="file-icon">📄</div>
+              <div class="file-details">
+                <span class="file-name">{{ msg.file?.name }}</span>
+                <span class="file-size">{{ msg.file?.size }}</span>
+              </div>
+              <div class="file-actions">
+                <button>📥</button>
+                <button>⋮</button>
+              </div>
+            </div>
+            <span class="time">🕒 {{ msg.time }}</span>
+          </div>
+
+          <!-- Typing Indicator -->
+          <div class="bubble typing-bubble" *ngIf="msg.type === 'typing'">
+            <div class="dots">typing <span>•••</span></div>
+          </div>
+
+          <div class="sender-tag" *ngIf="!msg.isMe && msg.type !== 'typing'">{{ msg.senderName }}</div>
+          <div class="sender-tag-me" *ngIf="msg.isMe">
+            <span>{{ msg.senderName }}</span>
+            <img [src]="msg.senderAvatar" class="mini-avatar" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Footer -->
+    <footer class="chat-footer">
+      <input 
+        type="text" 
+        placeholder="Enter Message..." 
+        [(ngModel)]="newMessage" 
+        (keyup.enter)="sendMessage()" 
+      />
+      <div class="input-actions">
+        <button class="icon-btn">😊</button>
+        <button class="icon-btn">📎</button>
+        <button class="icon-btn">🖼️</button>
+        <button class="send-btn" (click)="sendMessage()">✈️</button>
+      </div>
+    </footer>
+  </main>
+</div>
