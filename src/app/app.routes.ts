@@ -15,7 +15,7 @@ import { Purchasing } from './Core/Components/purchasing/purchasing';
 
 export const routes: Routes = [
     {
-        redirectTo: 'dashboard/home',
+        redirectTo: 'dashboard/Homepage',
         path: '',
         pathMatch: 'full',
     },
@@ -28,7 +28,7 @@ export const routes: Routes = [
         component: Sidebar
     },
     {
-        path: 'dashboard/home',
+        path: 'dashboard/Homepage',
         component: Homepage
     },
     {
